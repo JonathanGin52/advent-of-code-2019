@@ -48,25 +48,19 @@ fn main() {
         exit(&"No input file specified");
     };
     let mut phase_settings = [0, 1, 2, 3, 4];
-    let size = phase_settings.len();
-    let permutations = Vec::new();
-    let mut max = -1;
-
-    generate_permutations(&mut phase_settings, size, &permutations);
-
-    for permutation in permutations {
-        println!("{:?}", permutation);
-    }
-    println!("{}", max);
+    let length = phase_settings.len();
+    let mut permutations = Vec::new();
+    permute(&mut phase_settings, length, &mut permutations);
+    // let mut codes = load_file(&args[1]);
+    // let output = run(&mut codes);
 }
 
-fn generate_permutations(mut phase_settings: &mut [i32], size: usize, permutations: &Vec<&mut[i32]>) {
+fn permute(mut phase_settings: &mut [i32], size: usize, permutations: &mut Vec<[i32]>) {
     if size == 1 {
-        permutations.push(phase_settings);
-        return;
+        permutations.push(phase_settings.to_owned());
     }
     for i in 0..size {
-        generate_permutations(&mut phase_settings, size - 1, permutations);
+        permute(&mut phase_settings, size - 1, permutations);
         if size % 2 == 1 {
             let temp = phase_settings[0];
             phase_settings[0] = phase_settings[size - 1];
